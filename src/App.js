@@ -13,19 +13,19 @@ function App() {
       // Morning background color
       return {
         color: "white",
-        background: 'linear-gradient(to bottom, hsl(130, 20%, 30%), hsl(27, 71%, 66%))',
+        background: 'linear-gradient(to bottom, hsl(27, 65%, 50%), hsl(27, 91%, 66%), hsl(27, 66%, 71%))',
       }
     } else if (currentHour >= 12 && currentHour < 18) {
       // Afternoon background color
       return {
         color: "white",
-        background: 'linear-gradient(to bottom, hsl(150, 20%, 30%), hsl(27, 71%, 66%))',
+        background: 'linear-gradient(to bottom, hsl(185, 79%, 36%), hsl(185, 52%, 57%), hsl(185, 66%, 71%))',
       };
     } else {
       // Evening/Night background color
       return {
         color: "white",
-        background: 'linear-gradient(to bottom, hsl(27, 65%, 50%), hsl(27, 91%, 66%), hsl(27, 66%, 71%))',
+        background: 'linear-gradient(to bottom, hsl(222, 53%, 22%), hsl(222, 36%, 36%), hsl(222, 87%, 70%))',
       };
     }
   };
