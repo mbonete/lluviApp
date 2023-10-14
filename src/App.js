@@ -1,63 +1,67 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import Clock from './components/Clock';
+import { useWeather } from './hooks/useWeather';
 
 function App() {
-  const [weatherData, setWeatherData] = useState(null);
-  const apiKey = process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
-  const latRef = useRef(40.7142); // Default latitude
-  const lonRef = useRef(-74.00597); // Default longitude
+  const { weatherData } = useWeather();
+  const [ time, setTime ] = React.useState(new Date());
 
-  useEffect(() => {
-    // Function to fetch weather data based on the given coordinates
-    const fetchWeatherData = (lat, lon) => {
-      fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-          setWeatherData(data);
-        })
-        .catch(error => {
-          console.error('Error fetching weather data:', error);
-        });
-    };
-
-    // Check if geolocation is available
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        function (position) {
-          latRef.current = position.coords.latitude;
-          lonRef.current = position.coords.longitude;
-
-          // Fetch weather data based on the current coordinates
-          fetchWeatherData(latRef.current, lonRef.current);
-        },
-        function (error) {
-          console.log('Error getting geolocation:', error);
-          // Geolocation failed, keep using the default values
-          fetchWeatherData(latRef.current, lonRef.current);
-        }
-      );
+  const getBackgroundColor = () => {
+    const currentHour = time.getHours();
+    if (currentHour >= 6 && currentHour < 12) {
+      // Morning background color
+      return {
+        color: "white",
+        background: 'linear-gradient(to bottom, hsl(130, 20%, 30%), hsl(27, 71%, 66%))',
+      }
+    } else if (currentHour >= 12 && currentHour < 18) {
+      // Afternoon background color
+      return {
+        color: "white",
+        background: 'linear-gradient(to bottom, hsl(150, 20%, 30%), hsl(27, 71%, 66%))',
+      };
     } else {
-      console.log('Geolocation is not available in this browser.');
-      // Geolocation not available, keep using the default values
-      fetchWeatherData(latRef.current, lonRef.current);
+      // Evening/Night background color
+      return {
+        color: "white",
+        background: 'linear-gradient(to bottom, hsl(27, 65%, 50%), hsl(27, 91%, 66%), hsl(27, 66%, 71%))',
+      };
     }
-  }, []);
+  };
+  const { color, background } = getBackgroundColor(time);
 
   return (
-    <>
-      
-      <div>
-        {weatherData ? (
-          <div>
-            <h1>Weather in {weatherData.name}</h1>
-            <p>Temperature: {Math.round(weatherData.main.temp - 273.15)}°C</p>
-            <p>Conditions: {weatherData.weather[0].description}</p>
-          </div>
-        ) : (
-          <p>Loading weather data...</p>
-        )}
-      </div>
-    </>
+    <Wrapper>
+      {weatherData ? (
+        <Box style={{ color: color , background: background}}>
+          <h1>{weatherData.name}</h1>
+          <Clock />
+          <p>Temperature: {Math.round(weatherData.main.temp - 273.15)}°C</p>
+          <p>Conditions: {weatherData.weather[0].description}</p>
+          <p>Humidity: {weatherData.main.humidity}%</p>
+        </Box>
+      ) : (
+        <p>Loading weather data...</p>
+      )}
+    </Wrapper>
   );
 }
 
 export default App;
+
+const Wrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Box = styled.div`
+  background-color: lightblue;
+  padding: 32px;
+  border-radius: 8px;
+  min-width: 300px;
+  min-height: 400px;
+`;
