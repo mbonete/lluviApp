@@ -14,32 +14,37 @@ function App() {
       return {
         color: "white",
         background: 'linear-gradient(to bottom, hsl(27, 65%, 50%), hsl(27, 91%, 66%), hsl(27, 66%, 71%))',
+        src: '/morning.svg'
       }
     } else if (currentHour >= 12 && currentHour < 18) {
       // Afternoon background color
       return {
         color: "white",
         background: 'linear-gradient(to bottom, hsl(185, 79%, 36%), hsl(185, 52%, 57%), hsl(185, 66%, 71%))',
+        src: '/noon.svg'
       };
     } else {
       // Evening/Night background color
       return {
         color: "white",
         background: 'linear-gradient(to bottom, hsl(222, 53%, 22%), hsl(222, 36%, 36%), hsl(222, 87%, 70%))',
+        src: '/evening.svg'
       };
     }
   };
-  const { color, background } = getBackgroundColor(time);
+  const { color, background, src } = getBackgroundColor(time);
 
   return (
     <Wrapper>
       {weatherData ? (
         <Box style={{ color: color , background: background}}>
-          <h1>{weatherData.name}</h1>
+          <h1>{weatherData.name}</h1> 
+          
           <Clock />
           <p>Temperature: {Math.round(weatherData.main.temp - 273.15)}°C</p>
           <p>Conditions: {weatherData.weather[0].description}</p>
           <p>Humidity: {weatherData.main.humidity}%</p>
+          <Image src={src} alt='' />
         </Box>
       ) : (
         <p>Loading weather data...</p>
@@ -59,9 +64,24 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled.div`
-  background-color: lightblue;
+  position: relative;
   padding: 32px;
   border-radius: 8px;
-  min-width: 300px;
-  min-height: 400px;
+  min-width: 320px;
+  min-height: 450px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+
+const Image = styled.img`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  max-width: 850px;
+  max-height: 1600px;
 `;

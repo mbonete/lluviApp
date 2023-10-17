@@ -16,7 +16,7 @@ function Clock() {
   }, []);
 
   return (
-    <ClockWrapper className="clock">
+    <ClockWrapper className="clock"> 
       {format(time, 'hh:mm a')}
     </ClockWrapper>
   );
