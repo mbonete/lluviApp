@@ -70,7 +70,6 @@ const Wrapper = styled.div`
 const Box = styled.div`
   position: relative;
   padding: 32px;
-  border-radius: 8px;
   min-width: 320px;
   min-height: 450px;
   width: 100%;
@@ -88,6 +87,10 @@ const Image = styled.img`
   margin: 0 auto;
   max-width: 850px;
   max-height: 1600px;
+
+  @media(max-height: 400px) {
+    display: none
+  }
 `;
 
 const LoadingWrapper = styled.div`
