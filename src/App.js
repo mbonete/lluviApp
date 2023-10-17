@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Clock from './components/Clock';
 import { useWeather } from './hooks/useWeather';
+import Loader from './components/Loader';
 
 function App() {
   const { weatherData } = useWeather();
@@ -47,7 +48,10 @@ function App() {
           <Image src={src} alt='' />
         </Box>
       ) : (
-        <p>Loading weather data...</p>
+        <LoadingWrapper>
+          Obtaining geolocation...
+          <Loader/>
+        </LoadingWrapper>
       )}
     </Wrapper>
   );
@@ -84,4 +88,16 @@ const Image = styled.img`
   margin: 0 auto;
   max-width: 850px;
   max-height: 1600px;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 3rem;
+
+  @media(max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
