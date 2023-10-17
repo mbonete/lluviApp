@@ -71,7 +71,6 @@ const Box = styled.div`
   position: relative;
   padding: 32px;
   min-width: 320px;
-  min-height: 450px;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -88,7 +87,7 @@ const Image = styled.img`
   max-width: 850px;
   max-height: 1600px;
 
-  @media(max-height: 400px) {
+  @media(max-height: 380px) {
     display: none
   }
 `;
